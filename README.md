@@ -13,9 +13,21 @@ API documentation is available at <https://docs.integralapi.co/introduction>.
 [![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/edit/typescript-example-using-sdk-built-with-fern-mu4g1p?file=app.ts&view=editor)
 
 ```typescript
-import { TODO } from "TODO";
+import { IntegralApiClient } from '@fern-api/integral';
+import { Environment } from "@fern-api/integral/environments";
 
-const TODO
+const client = new IntegralApiClient({
+  environment: Environment.Production,
+  authentication: '123'
+});
+
+const response = await client.apiKeys.generate({
+  applicationUserForeignId: 'my-id',
+  description: 'My description',
+  isSandbox: true
+});
+
+console.log('Received response from Integral!', response);
 ```
 
 ## Beta status
