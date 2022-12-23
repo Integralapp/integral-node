@@ -23,8 +23,7 @@ const client = new IntegralApiClient({
 
 const response = await client.apiKeys.generate({
   applicationUserForeignId: 'my-id',
-  description: 'My description',
-  isSandbox: true
+  description: 'My description'
 });
 
 console.log('Received response from Integral!', response);
