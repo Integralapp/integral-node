@@ -28,7 +28,6 @@ export class Client {
       body: await serializers.apiKeys.generate.Request.json({
         applicationUserForeignId: request?.applicationUserForeignId,
         description: request?.description,
-        isSandbox: request?.isSandbox,
       }),
     });
     if (_response.ok) {

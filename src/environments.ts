@@ -4,7 +4,7 @@
 
 export const Environment = {
   Production: "https://api.integralapi.co/public",
-  Local: "http://localhost:4000/",
+  Local: "http://localhost:3000/",
 } as const;
 
 export type Environment = typeof Environment.Production | typeof Environment.Local;

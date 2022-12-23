@@ -5,5 +5,4 @@
 export interface GenereateApiKeyRequest {
   applicationUserForeignId?: string;
   description?: string;
-  isSandbox?: boolean;
 }

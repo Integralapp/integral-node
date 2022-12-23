@@ -12,14 +12,12 @@ export const Request: core.schemas.Schema<
 > = core.schemas.object({
   applicationUserForeignId: core.schemas.string().optional(),
   description: core.schemas.string().optional(),
-  isSandbox: core.schemas.boolean().optional(),
 });
 
 export declare namespace Request {
   interface Raw {
     applicationUserForeignId?: string | null;
     description?: string | null;
-    isSandbox?: boolean | null;
   }
 }
 
