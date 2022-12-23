@@ -26,7 +26,7 @@ export class Client {
         Authentication: await core.Supplier.get(this.options.authentication),
       },
       body: await serializers.apiKeys.generate.Request.json({
-        applicationUserForeignIdRequired: request?.applicationUserForeignIdRequired,
+        applicationUserForeignId: request?.applicationUserForeignId,
         description: request?.description,
         isSandbox: request?.isSandbox,
       }),

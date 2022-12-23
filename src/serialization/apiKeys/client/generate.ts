@@ -10,14 +10,14 @@ export const Request: core.schemas.Schema<
   serializers.apiKeys.generate.Request.Raw,
   IntegralApi.GenereateApiKeyRequest
 > = core.schemas.object({
-  applicationUserForeignIdRequired: core.schemas.string().optional(),
+  applicationUserForeignId: core.schemas.string().optional(),
   description: core.schemas.string().optional(),
   isSandbox: core.schemas.boolean().optional(),
 });
 
 export declare namespace Request {
   interface Raw {
-    applicationUserForeignIdRequired?: string | null;
+    applicationUserForeignId?: string | null;
     description?: string | null;
     isSandbox?: boolean | null;
   }

@@ -3,7 +3,7 @@
  */
 
 export interface GenereateApiKeyRequest {
-  applicationUserForeignIdRequired?: string;
+  applicationUserForeignId?: string;
   description?: string;
   isSandbox?: boolean;
 }
