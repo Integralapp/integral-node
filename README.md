@@ -13,17 +13,16 @@ API documentation is available at <https://docs.integralapi.co/introduction>.
 [![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/edit/typescript-example-using-sdk-built-with-fern-mu4g1p?file=app.ts&view=editor)
 
 ```typescript
-import { IntegralApiClient } from '@fern-api/integral';
-import { Environment } from "@fern-api/integral/environments";
+import { IntegralApiClient, IntegralApiEnvironment } from '@fern-api/integral';
 
 const client = new IntegralApiClient({
-  environment: Environment.Production,
-  authentication: '123'
+  environment: IntegralApiEnvironment.Production,
+  authentication: '123',
 });
 
 const response = await client.apiKeys.generate({
   applicationUserForeignId: 'my-id',
-  description: 'My description'
+  description: 'My description',
 });
 
 console.log('Received response from Integral!', response);
