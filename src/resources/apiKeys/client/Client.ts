@@ -10,7 +10,7 @@ import * as serializers from "../../../serialization";
 
 export declare namespace Client {
   interface Options {
-    environment?: environments.Environment | string;
+    environment?: environments.IntegralApiEnvironment | string;
     authentication?: core.Supplier<string>;
   }
 }
@@ -20,7 +20,7 @@ export class Client {
 
   public async generate(request?: IntegralApi.GenereateApiKeyRequest): Promise<IntegralApi.apiKeys.generate.Response> {
     const _response = await core.fetcher({
-      url: urlJoin(this.options.environment ?? environments.Environment.Production, "/key/create"),
+      url: urlJoin(this.options.environment ?? environments.IntegralApiEnvironment.Production, "/key/create"),
       method: "POST",
       headers: {
         Authentication: await core.Supplier.get(this.options.authentication),
@@ -47,7 +47,7 @@ export class Client {
 
   public async revoke(request: IntegralApi.RevokeApiKeyRequest): Promise<IntegralApi.apiKeys.revoke.Response> {
     const _response = await core.fetcher({
-      url: urlJoin(this.options.environment ?? environments.Environment.Production, "/keys/revoke"),
+      url: urlJoin(this.options.environment ?? environments.IntegralApiEnvironment.Production, "/keys/revoke"),
       method: "DELETE",
       headers: {
         Authentication: await core.Supplier.get(this.options.authentication),

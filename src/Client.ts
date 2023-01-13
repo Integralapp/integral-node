@@ -8,7 +8,7 @@ import { Client as ApiKeysClient } from "./resources/apiKeys/client/Client";
 
 export declare namespace IntegralApiClient {
   interface Options {
-    environment?: environments.Environment | string;
+    environment?: environments.IntegralApiEnvironment | string;
     authentication?: core.Supplier<string>;
   }
 }
