@@ -4,7 +4,7 @@
 
 import * as environments from "../../../environments";
 import * as core from "../../../core";
-import { IntegralApi } from "@fern-api/integral";
+import { IntegralApi } from "@integralapi/node";
 import urlJoin from "url-join";
 import * as serializers from "../../../serialization";
 

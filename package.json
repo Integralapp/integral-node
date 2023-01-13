@@ -1,7 +1,7 @@
 {
-    "name": "@fern-api/integral",
-    "version": "0.0.10",
-    "repository": "https://github.com/fern-integral/integral-node",
+    "name": "@integralapi/node",
+    "version": "0.0.0",
+    "repository": "https://github.com/Integralapp/integral-node",
     "files": [
         "dist",
         "types",

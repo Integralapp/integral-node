@@ -55,7 +55,7 @@ async function runEsbuild({ platform, target, format, entryPoint, outfile }) {
         bundle: true,
         alias: {
             // matches up with tsconfig paths
-            "@fern-api/integral": "./src",
+            "@integralapi/node": "./src",
         }
     }).catch(() => process.exit(1));
 }

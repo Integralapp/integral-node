@@ -3,7 +3,7 @@
  */
 
 import * as serializers from "../..";
-import { IntegralApi } from "@fern-api/integral";
+import { IntegralApi } from "@integralapi/node";
 import * as core from "../../../core";
 
 export const ApiKey: core.schemas.ObjectSchema<serializers.ApiKey.Raw, IntegralApi.ApiKey> = core.schemas.object({
