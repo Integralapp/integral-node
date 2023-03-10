@@ -3,8 +3,8 @@
  */
 
 export const IntegralApiEnvironment = {
-  Production: "https://api.integralapi.co/public",
-  Local: "http://localhost:3000/",
+    Production: "https://api.integralapi.co/public",
+    Local: "http://localhost:3000/",
 } as const;
 
 export type IntegralApiEnvironment = typeof IntegralApiEnvironment.Production | typeof IntegralApiEnvironment.Local;

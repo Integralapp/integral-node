@@ -4,21 +4,36 @@
 
 import * as environments from "./environments";
 import * as core from "./core";
-import { Client as ApiKeysClient } from "./resources/apiKeys/client/Client";
+import { ApiKeys } from "./api/resources/apiKeys/client/Client";
+import { ApplicationUser } from "./api/resources/applicationUser/client/Client";
+import { Parse } from "./api/resources/parse/client/Client";
 
 export declare namespace IntegralApiClient {
-  interface Options {
-    environment?: environments.IntegralApiEnvironment | string;
-    authentication?: core.Supplier<string>;
-  }
+    interface Options {
+        environment?: environments.IntegralApiEnvironment | string;
+        authHeader: core.Supplier<string>;
+        integralApplicationId: string;
+    }
 }
 
 export class IntegralApiClient {
-  constructor(private readonly options: IntegralApiClient.Options) {}
+    constructor(private readonly options: IntegralApiClient.Options) {}
 
-  #apiKeys: ApiKeysClient | undefined;
+    private _apiKeys: ApiKeys | undefined;
 
-  public get apiKeys(): ApiKeysClient {
-    return (this.#apiKeys ??= new ApiKeysClient(this.options));
-  }
+    public get apiKeys(): ApiKeys {
+        return (this._apiKeys ??= new ApiKeys(this.options));
+    }
+
+    private _applicationUser: ApplicationUser | undefined;
+
+    public get applicationUser(): ApplicationUser {
+        return (this._applicationUser ??= new ApplicationUser(this.options));
+    }
+
+    private _parse: Parse | undefined;
+
+    public get parse(): Parse {
+        return (this._parse ??= new Parse(this.options));
+    }
 }

@@ -1,58 +1,78 @@
+import { BaseSchema } from "../../Schema";
+import { filterObject } from "../../utils/filterObject";
+import { isPlainObject, NOT_AN_OBJECT_ERROR_MESSAGE } from "../../utils/isPlainObject";
 import { getSchemaUtils } from "../schema-utils";
-import { BaseObjectLikeSchema, ObjectLikeSchema, ObjectLikeUtils, OBJECT_LIKE_BRAND } from "./types";
+import { ObjectLikeSchema, ObjectLikeUtils } from "./types";
 
-export function getObjectLikeUtils<Raw, Parsed>(
-  schema: BaseObjectLikeSchema<Raw, Parsed>
-): ObjectLikeUtils<Raw, Parsed> {
-  return {
-    withProperties: (properties) => withProperties(schema, properties),
-  };
+export function getObjectLikeUtils<Raw, Parsed>(schema: BaseSchema<Raw, Parsed>): ObjectLikeUtils<Raw, Parsed> {
+    return {
+        withParsedProperties: (properties) => withParsedProperties(schema, properties),
+    };
 }
 
 /**
  * object-like utils are defined in one file to resolve issues with circular imports
  */
 
-export function withProperties<RawObjectShape, ParsedObjectShape, Properties>(
-  objectLike: BaseObjectLikeSchema<RawObjectShape, ParsedObjectShape>,
-  properties: { [K in keyof Properties]: Properties[K] | ((parsed: ParsedObjectShape) => Properties[K]) }
+export function withParsedProperties<RawObjectShape, ParsedObjectShape, Properties>(
+    objectLike: BaseSchema<RawObjectShape, ParsedObjectShape>,
+    properties: { [K in keyof Properties]: Properties[K] | ((parsed: ParsedObjectShape) => Properties[K]) }
 ): ObjectLikeSchema<RawObjectShape, ParsedObjectShape & Properties> {
-  const objectSchema: BaseObjectLikeSchema<RawObjectShape, ParsedObjectShape & Properties> = {
-    ...OBJECT_LIKE_BRAND,
-    parse: async (raw, opts) => {
-      const parsedObject = await objectLike.parse(raw, opts);
-      const additionalProperties = Object.entries(properties).reduce<Record<string, any>>((processed, [key, value]) => {
-        return {
-          ...processed,
-          [key]: typeof value === "function" ? value(parsedObject) : value,
-        };
-      }, {});
+    const objectSchema: BaseSchema<RawObjectShape, ParsedObjectShape & Properties> = {
+        parse: async (raw, opts) => {
+            const parsedObject = await objectLike.parse(raw, opts);
+            if (!parsedObject.ok) {
+                return parsedObject;
+            }
 
-      return {
-        ...parsedObject,
-        ...(additionalProperties as Properties),
-      };
-    },
-    json: (parsed, opts) => {
-      // strip out added properties
-      const addedPropertyKeys = new Set(Object.keys(properties));
-      const parsedWithoutAddedProperties = Object.entries(parsed).reduce<Record<string, any>>(
-        (filtered, [key, value]) => {
-          if (!addedPropertyKeys.has(key)) {
-            filtered[key] = value;
-          }
-          return filtered;
+            const additionalProperties = Object.entries(properties).reduce<Record<string, any>>(
+                (processed, [key, value]) => {
+                    return {
+                        ...processed,
+                        [key]: typeof value === "function" ? value(parsedObject.value) : value,
+                    };
+                },
+                {}
+            );
+
+            return {
+                ok: true,
+                value: {
+                    ...parsedObject.value,
+                    ...(additionalProperties as Properties),
+                },
+            };
         },
-        {}
-      );
 
-      return objectLike.json(parsedWithoutAddedProperties as ParsedObjectShape, opts);
-    },
-  };
+        json: (parsed, opts) => {
+            if (!isPlainObject(parsed)) {
+                return {
+                    ok: false,
+                    errors: [
+                        {
+                            path: [],
+                            message: NOT_AN_OBJECT_ERROR_MESSAGE,
+                        },
+                    ],
+                };
+            }
 
-  return {
-    ...objectSchema,
-    ...getSchemaUtils(objectSchema),
-    ...getObjectLikeUtils(objectSchema),
-  };
+            // strip out added properties
+            const addedPropertyKeys = new Set(Object.keys(properties));
+            const parsedWithoutAddedProperties = filterObject(
+                parsed,
+                Object.keys(parsed).filter((key) => !addedPropertyKeys.has(key))
+            );
+
+            return objectLike.json(parsedWithoutAddedProperties as ParsedObjectShape, opts);
+        },
+
+        getType: () => objectLike.getType(),
+    };
+
+    return {
+        ...objectSchema,
+        ...getSchemaUtils(objectSchema),
+        ...getObjectLikeUtils(objectSchema),
+    };
 }
