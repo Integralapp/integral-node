@@ -11,7 +11,7 @@ import { Parse } from "./api/resources/parse/client/Client";
 export declare namespace IntegralApiClient {
     interface Options {
         environment?: environments.IntegralApiEnvironment | string;
-        authHeader: core.Supplier<string>;
+        apiKey: core.Supplier<string>;
         integralApplicationId: string;
     }
 }

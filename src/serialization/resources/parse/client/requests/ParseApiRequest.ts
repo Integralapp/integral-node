@@ -18,7 +18,7 @@ export const ParseApiRequest: core.serialization.Schema<serializers.ParseApiRequ
         headers: core.serialization.record(core.serialization.string(), core.serialization.unknown()),
         path: core.serialization.string(),
         queryParams: core.serialization.record(core.serialization.string(), core.serialization.unknown()),
-        metadata: core.serialization.record(core.serialization.string(), core.serialization.unknown()),
+        metadata: core.serialization.record(core.serialization.string(), core.serialization.unknown()).optional(),
     });
 
 export declare namespace ParseApiRequest {
@@ -30,6 +30,6 @@ export declare namespace ParseApiRequest {
         headers: Record<string, unknown>;
         path: string;
         queryParams: Record<string, unknown>;
-        metadata: Record<string, unknown>;
+        metadata?: Record<string, unknown> | null;
     }
 }

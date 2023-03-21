@@ -10,5 +10,5 @@ export interface ParseApiRequest {
     headers: Record<string, unknown>;
     path: string;
     queryParams: Record<string, unknown>;
-    metadata: Record<string, unknown>;
+    metadata?: Record<string, unknown>;
 }

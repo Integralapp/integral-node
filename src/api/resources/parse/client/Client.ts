@@ -12,7 +12,7 @@ import * as errors from "../../../../errors";
 export declare namespace Parse {
     interface Options {
         environment?: environments.IntegralApiEnvironment | string;
-        authHeader: core.Supplier<string>;
+        apiKey: core.Supplier<string>;
         integralApplicationId: string;
     }
 }
@@ -30,7 +30,7 @@ export class Parse {
             method: "POST",
             headers: {
                 "Integral-Application-Id": this.options.integralApplicationId,
-                Authentication: await core.Supplier.get(this.options.authHeader),
+                Authorization: await core.Supplier.get(this.options.apiKey),
             },
             body: await serializers.ParseApiRequest.jsonOrThrow(request),
         });

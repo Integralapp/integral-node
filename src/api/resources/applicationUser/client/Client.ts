@@ -12,7 +12,7 @@ import * as errors from "../../../../errors";
 export declare namespace ApplicationUser {
     interface Options {
         environment?: environments.IntegralApiEnvironment | string;
-        authHeader: core.Supplier<string>;
+        apiKey: core.Supplier<string>;
         integralApplicationId: string;
     }
 }
@@ -32,7 +32,7 @@ export class ApplicationUser {
             method: "POST",
             headers: {
                 "Integral-Application-Id": this.options.integralApplicationId,
-                Authentication: await core.Supplier.get(this.options.authHeader),
+                Authorization: await core.Supplier.get(this.options.apiKey),
             },
             body: await serializers.CreateApplicationUser.jsonOrThrow(request),
         });
@@ -76,7 +76,7 @@ export class ApplicationUser {
             method: "GET",
             headers: {
                 "Integral-Application-Id": this.options.integralApplicationId,
-                Authentication: await core.Supplier.get(this.options.authHeader),
+                Authorization: await core.Supplier.get(this.options.apiKey),
             },
         });
         if (_response.ok) {

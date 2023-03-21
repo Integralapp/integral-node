@@ -12,7 +12,7 @@ import * as errors from "../../../../errors";
 export declare namespace ApiKeys {
     interface Options {
         environment?: environments.IntegralApiEnvironment | string;
-        authHeader: core.Supplier<string>;
+        apiKey: core.Supplier<string>;
         integralApplicationId: string;
     }
 }
@@ -30,7 +30,7 @@ export class ApiKeys {
             method: "POST",
             headers: {
                 "Integral-Application-Id": this.options.integralApplicationId,
-                Authentication: await core.Supplier.get(this.options.authHeader),
+                Authorization: await core.Supplier.get(this.options.apiKey),
             },
             body: await serializers.GenerateApiKeyRequest.jsonOrThrow(request),
         });
@@ -73,7 +73,7 @@ export class ApiKeys {
             method: "GET",
             headers: {
                 "Integral-Application-Id": this.options.integralApplicationId,
-                Authentication: await core.Supplier.get(this.options.authHeader),
+                Authorization: await core.Supplier.get(this.options.apiKey),
             },
         });
         if (_response.ok) {
@@ -112,7 +112,7 @@ export class ApiKeys {
             method: "PUT",
             headers: {
                 "Integral-Application-Id": this.options.integralApplicationId,
-                Authentication: await core.Supplier.get(this.options.authHeader),
+                Authorization: await core.Supplier.get(this.options.apiKey),
             },
             body: await serializers.PauseApiKeyRequest.jsonOrThrow(request),
         });
@@ -154,7 +154,7 @@ export class ApiKeys {
             method: "DELETE",
             headers: {
                 "Integral-Application-Id": this.options.integralApplicationId,
-                Authentication: await core.Supplier.get(this.options.authHeader),
+                Authorization: await core.Supplier.get(this.options.apiKey),
             },
             body: await serializers.RevokeApiKeyRequest.jsonOrThrow(request),
         });

@@ -3,10 +3,11 @@
  */
 
 export interface UserParseResponse {
-    id: string;
+    integralId: string;
+    metadata?: Record<string, unknown>;
+    userForeignId: string;
+    isAllowlistedOnEndpoint?: boolean;
     createdAt: string;
-    firstName: string;
-    lastName: string;
-    email: string;
-    isAdmin: boolean;
+    updatedAt: string;
+    deletedAt: boolean;
 }
