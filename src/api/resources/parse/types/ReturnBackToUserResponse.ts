@@ -5,8 +5,8 @@
 export interface ReturnBackToUserResponse {
     message: string;
     solution: string;
-    apiKey: string;
-    error: string;
+    apiKey?: string;
+    error?: boolean;
     errorCode: string;
     displayMessage: string;
     documentationUrl?: string;

@@ -12,8 +12,8 @@ export const ReturnBackToUserResponse: core.serialization.ObjectSchema<
 > = core.serialization.object({
     message: core.serialization.string(),
     solution: core.serialization.string(),
-    apiKey: core.serialization.string(),
-    error: core.serialization.string(),
+    apiKey: core.serialization.string().optional(),
+    error: core.serialization.boolean().optional(),
     errorCode: core.serialization.string(),
     displayMessage: core.serialization.string(),
     documentationUrl: core.serialization.string().optional(),
@@ -24,8 +24,8 @@ export declare namespace ReturnBackToUserResponse {
     interface Raw {
         message: string;
         solution: string;
-        apiKey: string;
-        error: string;
+        apiKey?: string | null;
+        error?: boolean | null;
         errorCode: string;
         displayMessage: string;
         documentationUrl?: string | null;
