@@ -9,5 +9,5 @@ export interface ParseApiRequestResponse {
     statusCode: number;
     user: IntegralApi.UserParseResponse;
     application: IntegralApi.ApplicationParseResponse;
-    returnBackToUser: IntegralApi.ReturnBackToUserResponse;
+    returnBackToUser?: IntegralApi.ReturnBackToUserResponse;
 }

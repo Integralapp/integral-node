@@ -14,7 +14,9 @@ export const ParseApiRequestResponse: core.serialization.ObjectSchema<
     statusCode: core.serialization.number(),
     user: core.serialization.lazyObject(async () => (await import("../../..")).UserParseResponse),
     application: core.serialization.lazyObject(async () => (await import("../../..")).ApplicationParseResponse),
-    returnBackToUser: core.serialization.lazyObject(async () => (await import("../../..")).ReturnBackToUserResponse),
+    returnBackToUser: core.serialization
+        .lazyObject(async () => (await import("../../..")).ReturnBackToUserResponse)
+        .optional(),
 });
 
 export declare namespace ParseApiRequestResponse {
@@ -23,6 +25,6 @@ export declare namespace ParseApiRequestResponse {
         statusCode: number;
         user: serializers.UserParseResponse.Raw;
         application: serializers.ApplicationParseResponse.Raw;
-        returnBackToUser: serializers.ReturnBackToUserResponse.Raw;
+        returnBackToUser?: serializers.ReturnBackToUserResponse.Raw | null;
     }
 }

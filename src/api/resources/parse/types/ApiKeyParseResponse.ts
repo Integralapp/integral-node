@@ -4,5 +4,5 @@
 
 export interface ApiKeyParseResponse {
     isAllowed: boolean;
-    environment: string;
+    environment?: string;
 }

@@ -10,23 +10,23 @@ export const UserParseResponse: core.serialization.ObjectSchema<
     serializers.UserParseResponse.Raw,
     IntegralApi.UserParseResponse
 > = core.serialization.object({
-    integralId: core.serialization.string(),
+    integralId: core.serialization.string().optional(),
     metadata: core.serialization.record(core.serialization.string(), core.serialization.unknown()).optional(),
-    userForeignId: core.serialization.string(),
+    userForeignId: core.serialization.string().optional(),
     isAllowlistedOnEndpoint: core.serialization.boolean().optional(),
-    createdAt: core.serialization.string(),
-    updatedAt: core.serialization.string(),
-    deletedAt: core.serialization.boolean(),
+    createdAt: core.serialization.string().optional(),
+    updatedAt: core.serialization.string().optional(),
+    deletedAt: core.serialization.string().optional(),
 });
 
 export declare namespace UserParseResponse {
     interface Raw {
-        integralId: string;
+        integralId?: string | null;
         metadata?: Record<string, unknown> | null;
-        userForeignId: string;
+        userForeignId?: string | null;
         isAllowlistedOnEndpoint?: boolean | null;
-        createdAt: string;
-        updatedAt: string;
-        deletedAt: boolean;
+        createdAt?: string | null;
+        updatedAt?: string | null;
+        deletedAt?: string | null;
     }
 }

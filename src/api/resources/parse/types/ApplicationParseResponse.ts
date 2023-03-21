@@ -6,7 +6,7 @@ export interface ApplicationParseResponse {
     id: string;
     createdAt: string;
     updatedAt: string;
-    deletedAt: string;
+    deletedAt?: string;
     name: string;
     description: string;
 }

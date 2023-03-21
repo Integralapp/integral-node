@@ -3,11 +3,11 @@
  */
 
 export interface UserParseResponse {
-    integralId: string;
+    integralId?: string;
     metadata?: Record<string, unknown>;
-    userForeignId: string;
+    userForeignId?: string;
     isAllowlistedOnEndpoint?: boolean;
-    createdAt: string;
-    updatedAt: string;
-    deletedAt: boolean;
+    createdAt?: string;
+    updatedAt?: string;
+    deletedAt?: string;
 }

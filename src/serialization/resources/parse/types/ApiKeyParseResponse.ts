@@ -11,12 +11,12 @@ export const ApiKeyParseResponse: core.serialization.ObjectSchema<
     IntegralApi.ApiKeyParseResponse
 > = core.serialization.object({
     isAllowed: core.serialization.boolean(),
-    environment: core.serialization.string(),
+    environment: core.serialization.string().optional(),
 });
 
 export declare namespace ApiKeyParseResponse {
     interface Raw {
         isAllowed: boolean;
-        environment: string;
+        environment?: string | null;
     }
 }

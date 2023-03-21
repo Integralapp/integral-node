@@ -13,7 +13,7 @@ export const ApplicationParseResponse: core.serialization.ObjectSchema<
     id: core.serialization.string(),
     createdAt: core.serialization.string(),
     updatedAt: core.serialization.string(),
-    deletedAt: core.serialization.string(),
+    deletedAt: core.serialization.string().optional(),
     name: core.serialization.string(),
     description: core.serialization.string(),
 });
@@ -23,7 +23,7 @@ export declare namespace ApplicationParseResponse {
         id: string;
         createdAt: string;
         updatedAt: string;
-        deletedAt: string;
+        deletedAt?: string | null;
         name: string;
         description: string;
     }
