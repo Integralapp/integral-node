@@ -10,13 +10,15 @@ export const CreateApplicationUser: core.serialization.Schema<
     serializers.CreateApplicationUser.Raw,
     IntegralApi.CreateApplicationUser
 > = core.serialization.object({
-    applicationUserForeignId: core.serialization.string(),
-    applicationTierId: core.serialization.string(),
+    userId: core.serialization.string(),
+    tierId: core.serialization.string(),
+    description: core.serialization.string().optional(),
 });
 
 export declare namespace CreateApplicationUser {
     interface Raw {
-        applicationUserForeignId: string;
-        applicationTierId: string;
+        userId: string;
+        tierId: string;
+        description?: string | null;
     }
 }

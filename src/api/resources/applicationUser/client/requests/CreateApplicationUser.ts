@@ -3,6 +3,7 @@
  */
 
 export interface CreateApplicationUser {
-    applicationUserForeignId: string;
-    applicationTierId: string;
+    userId: string;
+    tierId: string;
+    description?: string;
 }

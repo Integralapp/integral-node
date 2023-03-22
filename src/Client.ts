@@ -7,6 +7,7 @@ import * as core from "./core";
 import { ApiKeys } from "./api/resources/apiKeys/client/Client";
 import { ApplicationUser } from "./api/resources/applicationUser/client/Client";
 import { Parse } from "./api/resources/parse/client/Client";
+import { Tiers } from "./api/resources/tiers/client/Client";
 
 export declare namespace IntegralApiClient {
     interface Options {
@@ -35,5 +36,11 @@ export class IntegralApiClient {
 
     public get parse(): Parse {
         return (this._parse ??= new Parse(this.options));
+    }
+
+    private _tiers: Tiers | undefined;
+
+    public get tiers(): Tiers {
+        return (this._tiers ??= new Tiers(this.options));
     }
 }

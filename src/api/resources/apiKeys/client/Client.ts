@@ -64,12 +64,9 @@ export class ApiKeys {
      * Retrieve all API keys for the given Application User
      *
      */
-    public async retrieve(applicationUserForeignId: string): Promise<IntegralApi.ApiKey[]> {
+    public async retrieve(userId: string): Promise<IntegralApi.ApiKey[]> {
         const _response = await core.fetcher({
-            url: urlJoin(
-                this.options.environment ?? environments.IntegralApiEnvironment.Production,
-                `/key/${applicationUserForeignId}`
-            ),
+            url: urlJoin(this.options.environment ?? environments.IntegralApiEnvironment.Production, `/key/${userId}`),
             method: "GET",
             headers: {
                 "Integral-Application-Id": this.options.integralApplicationId,

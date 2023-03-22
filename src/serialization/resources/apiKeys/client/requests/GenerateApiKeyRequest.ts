@@ -10,14 +10,14 @@ export const GenerateApiKeyRequest: core.serialization.Schema<
     serializers.GenerateApiKeyRequest.Raw,
     IntegralApi.GenerateApiKeyRequest
 > = core.serialization.object({
-    applicationUserForeignId: core.serialization.string(),
+    userId: core.serialization.string(),
     description: core.serialization.string().optional(),
     isSandbox: core.serialization.boolean().optional(),
 });
 
 export declare namespace GenerateApiKeyRequest {
     interface Raw {
-        applicationUserForeignId: string;
+        userId: string;
         description?: string | null;
         isSandbox?: boolean | null;
     }

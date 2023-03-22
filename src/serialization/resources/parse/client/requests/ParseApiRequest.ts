@@ -11,10 +11,7 @@ export const ParseApiRequest: core.serialization.Schema<serializers.ParseApiRequ
         apiKey: core.serialization.string(),
         ip: core.serialization.string(),
         method: core.serialization.string(),
-        requestBody: core.serialization.property(
-            "body",
-            core.serialization.record(core.serialization.string(), core.serialization.unknown())
-        ),
+        requestBody: core.serialization.record(core.serialization.string(), core.serialization.unknown()),
         headers: core.serialization.record(core.serialization.string(), core.serialization.unknown()),
         path: core.serialization.string(),
         queryParams: core.serialization.record(core.serialization.string(), core.serialization.unknown()),
@@ -26,7 +23,7 @@ export declare namespace ParseApiRequest {
         apiKey: string;
         ip: string;
         method: string;
-        body: Record<string, unknown>;
+        requestBody: Record<string, unknown>;
         headers: Record<string, unknown>;
         path: string;
         queryParams: Record<string, unknown>;
