@@ -3,12 +3,38 @@
  */
 
 export interface ParseApiRequest {
+    /** This API key is the key passed in by your API’s user. This is crucial for us to parse out your application’s user */
     apiKey: string;
+    /** IP address of the incoming request so we can rate limit on top of it. */
     ip: string;
+    /**
+     * HTTP method of the incoming request Allowed values: `GET`, `POST`, `PUT`, `DELETE`, `PATCH`, `OPTIONS`, `CONNECT`, `TRACE`
+     *
+     */
     method: string;
+    /**
+     * The request body from the incoming request from input validation. Null if request method is a GET
+     *
+     */
     requestBody: Record<string, unknown>;
+    /**
+     * Headers from the incoming request
+     *
+     */
     headers: Record<string, unknown>;
+    /**
+     * Path (with all variables inside), from the request to match endpoints created on the Integral platform.
+     *
+     */
     path: string;
+    /**
+     * The query parameters (parameters in the URL that come after the base URL and ?) of a request object. Pass in an empty object if it doesn’t exist.
+     *
+     */
     queryParams: Record<string, unknown>;
+    /**
+     * A single level key-value JSON object that can be used to store custom data for the API request; keys and values must be strings
+     *
+     */
     metadata?: Record<string, unknown>;
 }

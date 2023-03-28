@@ -13,7 +13,7 @@ export declare namespace Parse {
     interface Options {
         environment?: environments.IntegralApiEnvironment | string;
         apiKey: core.Supplier<string>;
-        integralApplicationId: string;
+        integralApplicationId: core.Supplier<string>;
     }
 }
 
@@ -29,13 +29,18 @@ export class Parse {
             url: urlJoin(this.options.environment ?? environments.IntegralApiEnvironment.Production, "/parse"),
             method: "POST",
             headers: {
-                "Integral-Application-Id": this.options.integralApplicationId,
-                Authorization: await core.Supplier.get(this.options.apiKey),
+                Authorization: await this._getAuthorizationHeader(),
+                "Integral-Application-Id": await core.Supplier.get(this.options.integralApplicationId),
             },
-            body: await serializers.ParseApiRequest.jsonOrThrow(request),
+            contentType: "application/json",
+            body: await serializers.ParseApiRequest.jsonOrThrow(request, { unrecognizedObjectKeys: "strip" }),
         });
         if (_response.ok) {
-            return await serializers.ParseApiRequestResponse.parseOrThrow(_response.body, { allowUnknownKeys: true });
+            return await serializers.ParseApiRequestResponse.parseOrThrow(_response.body, {
+                unrecognizedObjectKeys: "passthrough",
+                allowUnrecognizedUnionMembers: true,
+                allowUnrecognizedEnumValues: true,
+            });
         }
 
         if (_response.error.reason === "status-code") {
@@ -58,5 +63,14 @@ export class Parse {
                     message: _response.error.errorMessage,
                 });
         }
+    }
+
+    private async _getAuthorizationHeader() {
+        const value = await core.Supplier.get(this.options.apiKey);
+        if (value != null) {
+            return value;
+        }
+
+        return undefined;
     }
 }

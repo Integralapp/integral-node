@@ -3,7 +3,16 @@
  */
 
 export interface CreateApplicationUser {
+    /**
+     * This is a unique index on your database to find users.  This will allow us to know which API key associates to each user on your application's end.
+     *
+     */
     userId: string;
+    /**
+     * This is an ID provided by Integral to reference an application tier you would like to assign for this user. You can find the application tier IDs by sending a GET request to the `/public/tiers` endpoint.
+     *
+     */
     tierId: string;
+    /** Generic description to describe the given Application User */
     description?: string;
 }

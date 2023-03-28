@@ -1,20 +1,8 @@
 {
     "name": "@integralapi/node",
-    "version": "0.13.0",
+    "version": "0.14.0",
     "private": false,
     "repository": "https://github.com/Integralapp/integral-node",
-    "files": [
-        "Client.d.ts",
-        "Client.js",
-        "environments.d.ts",
-        "environments.js",
-        "index.d.ts",
-        "index.js",
-        "api",
-        "core",
-        "errors",
-        "serialization"
-    ],
     "main": "./index.js",
     "types": "./index.d.ts",
     "scripts": {

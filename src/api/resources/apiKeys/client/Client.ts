@@ -13,7 +13,7 @@ export declare namespace ApiKeys {
     interface Options {
         environment?: environments.IntegralApiEnvironment | string;
         apiKey: core.Supplier<string>;
-        integralApplicationId: string;
+        integralApplicationId: core.Supplier<string>;
     }
 }
 
@@ -29,13 +29,18 @@ export class ApiKeys {
             url: urlJoin(this.options.environment ?? environments.IntegralApiEnvironment.Production, "/key/create"),
             method: "POST",
             headers: {
-                "Integral-Application-Id": this.options.integralApplicationId,
-                Authorization: await core.Supplier.get(this.options.apiKey),
+                Authorization: await this._getAuthorizationHeader(),
+                "Integral-Application-Id": await core.Supplier.get(this.options.integralApplicationId),
             },
-            body: await serializers.GenerateApiKeyRequest.jsonOrThrow(request),
+            contentType: "application/json",
+            body: await serializers.GenerateApiKeyRequest.jsonOrThrow(request, { unrecognizedObjectKeys: "strip" }),
         });
         if (_response.ok) {
-            return await serializers.ApiKey.parseOrThrow(_response.body, { allowUnknownKeys: true });
+            return await serializers.ApiKey.parseOrThrow(_response.body, {
+                unrecognizedObjectKeys: "passthrough",
+                allowUnrecognizedUnionMembers: true,
+                allowUnrecognizedEnumValues: true,
+            });
         }
 
         if (_response.error.reason === "status-code") {
@@ -69,12 +74,17 @@ export class ApiKeys {
             url: urlJoin(this.options.environment ?? environments.IntegralApiEnvironment.Production, `/key/${userId}`),
             method: "GET",
             headers: {
-                "Integral-Application-Id": this.options.integralApplicationId,
-                Authorization: await core.Supplier.get(this.options.apiKey),
+                Authorization: await this._getAuthorizationHeader(),
+                "Integral-Application-Id": await core.Supplier.get(this.options.integralApplicationId),
             },
+            contentType: "application/json",
         });
         if (_response.ok) {
-            return await serializers.apiKeys.retrieve.Response.parseOrThrow(_response.body, { allowUnknownKeys: true });
+            return await serializers.apiKeys.retrieve.Response.parseOrThrow(_response.body, {
+                unrecognizedObjectKeys: "passthrough",
+                allowUnrecognizedUnionMembers: true,
+                allowUnrecognizedEnumValues: true,
+            });
         }
 
         if (_response.error.reason === "status-code") {
@@ -108,13 +118,18 @@ export class ApiKeys {
             url: urlJoin(this.options.environment ?? environments.IntegralApiEnvironment.Production, "/key/pause"),
             method: "PUT",
             headers: {
-                "Integral-Application-Id": this.options.integralApplicationId,
-                Authorization: await core.Supplier.get(this.options.apiKey),
+                Authorization: await this._getAuthorizationHeader(),
+                "Integral-Application-Id": await core.Supplier.get(this.options.integralApplicationId),
             },
-            body: await serializers.PauseApiKeyRequest.jsonOrThrow(request),
+            contentType: "application/json",
+            body: await serializers.PauseApiKeyRequest.jsonOrThrow(request, { unrecognizedObjectKeys: "strip" }),
         });
         if (_response.ok) {
-            return await serializers.ApiKey.parseOrThrow(_response.body, { allowUnknownKeys: true });
+            return await serializers.ApiKey.parseOrThrow(_response.body, {
+                unrecognizedObjectKeys: "passthrough",
+                allowUnrecognizedUnionMembers: true,
+                allowUnrecognizedEnumValues: true,
+            });
         }
 
         if (_response.error.reason === "status-code") {
@@ -150,13 +165,18 @@ export class ApiKeys {
             url: urlJoin(this.options.environment ?? environments.IntegralApiEnvironment.Production, "/key/revoke"),
             method: "DELETE",
             headers: {
-                "Integral-Application-Id": this.options.integralApplicationId,
-                Authorization: await core.Supplier.get(this.options.apiKey),
+                Authorization: await this._getAuthorizationHeader(),
+                "Integral-Application-Id": await core.Supplier.get(this.options.integralApplicationId),
             },
-            body: await serializers.RevokeApiKeyRequest.jsonOrThrow(request),
+            contentType: "application/json",
+            body: await serializers.RevokeApiKeyRequest.jsonOrThrow(request, { unrecognizedObjectKeys: "strip" }),
         });
         if (_response.ok) {
-            return await serializers.ApiKey.parseOrThrow(_response.body, { allowUnknownKeys: true });
+            return await serializers.ApiKey.parseOrThrow(_response.body, {
+                unrecognizedObjectKeys: "passthrough",
+                allowUnrecognizedUnionMembers: true,
+                allowUnrecognizedEnumValues: true,
+            });
         }
 
         if (_response.error.reason === "status-code") {
@@ -179,5 +199,14 @@ export class ApiKeys {
                     message: _response.error.errorMessage,
                 });
         }
+    }
+
+    private async _getAuthorizationHeader() {
+        const value = await core.Supplier.get(this.options.apiKey);
+        if (value != null) {
+            return value;
+        }
+
+        return undefined;
     }
 }

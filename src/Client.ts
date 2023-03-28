@@ -13,7 +13,7 @@ export declare namespace IntegralApiClient {
     interface Options {
         environment?: environments.IntegralApiEnvironment | string;
         apiKey: core.Supplier<string>;
-        integralApplicationId: string;
+        integralApplicationId: core.Supplier<string>;
     }
 }
 

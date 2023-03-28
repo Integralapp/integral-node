@@ -3,7 +3,19 @@
  */
 
 export interface GenerateApiKeyRequest {
+    /**
+     * This is a unique index on your database to find users.  This will allow us to know which API key associates to each user on your application's end.
+     *
+     */
     userId: string;
+    /**
+     * This is the description applied to an API key to identify it for a human. Use this to describe who the key belongs to, or why this key is relevant/exists.
+     *
+     */
     description?: string;
+    /**
+     * This value is a boolean to determine whether the key is for Sandbox use only or not. If it is for sandbox use, it will not be able to access real data and will only be able to work with templated data.
+     *
+     */
     isSandbox?: boolean;
 }
