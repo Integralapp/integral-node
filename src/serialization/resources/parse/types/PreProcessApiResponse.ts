@@ -6,11 +6,11 @@ import * as serializers from "../../..";
 import { IntegralApi } from "@integralapi/node";
 import * as core from "../../../../core";
 
-export const ParseApiRequestResponse: core.serialization.ObjectSchema<
-    serializers.ParseApiRequestResponse.Raw,
-    IntegralApi.ParseApiRequestResponse
+export const PreProcessApiResponse: core.serialization.ObjectSchema<
+    serializers.PreProcessApiResponse.Raw,
+    IntegralApi.PreProcessApiResponse
 > = core.serialization.object({
-    apiKey: core.serialization.lazyObject(async () => (await import("../../..")).ApiKeyParseResponse),
+    request: core.serialization.lazyObject(async () => (await import("../../..")).RequestPreProcessResponse),
     statusCode: core.serialization.number(),
     user: core.serialization.lazyObject(async () => (await import("../../..")).UserParseResponse),
     application: core.serialization.lazyObject(async () => (await import("../../..")).ApplicationParseResponse),
@@ -19,9 +19,9 @@ export const ParseApiRequestResponse: core.serialization.ObjectSchema<
         .optional(),
 });
 
-export declare namespace ParseApiRequestResponse {
+export declare namespace PreProcessApiResponse {
     interface Raw {
-        apiKey: serializers.ApiKeyParseResponse.Raw;
+        request: serializers.RequestPreProcessResponse.Raw;
         statusCode: number;
         user: serializers.UserParseResponse.Raw;
         application: serializers.ApplicationParseResponse.Raw;

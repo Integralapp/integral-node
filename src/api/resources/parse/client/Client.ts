@@ -21,22 +21,73 @@ export class Parse {
     constructor(private readonly options: Parse.Options) {}
 
     /**
-     * The main processor of information for any endpoint: API keys (paused and revoked), Versioning, Access Control, Field Validation, Billing, Dynamic Rate Limiting, and more.
+     * This endpoint should be put in the pre-processing middleware:  Authentication, Access Control, Dynamic Rate Limiting, Idempotency, Versioning, Sandbox, and more.
      *
      */
-    public async parse(request: IntegralApi.ParseApiRequest): Promise<IntegralApi.ParseApiRequestResponse> {
+    public async preProcess(request: IntegralApi.PreProcessApiRequest): Promise<IntegralApi.PreProcessApiResponse> {
         const _response = await core.fetcher({
-            url: urlJoin(this.options.environment ?? environments.IntegralApiEnvironment.Production, "/parse"),
+            url: urlJoin(
+                this.options.environment ?? environments.IntegralApiEnvironment.Production,
+                "/parse/pre-process"
+            ),
             method: "POST",
             headers: {
                 Authorization: await this._getAuthorizationHeader(),
                 "Integral-Application-Id": await core.Supplier.get(this.options.integralApplicationId),
             },
             contentType: "application/json",
-            body: await serializers.ParseApiRequest.jsonOrThrow(request, { unrecognizedObjectKeys: "strip" }),
+            body: await serializers.PreProcessApiRequest.jsonOrThrow(request, { unrecognizedObjectKeys: "strip" }),
         });
         if (_response.ok) {
-            return await serializers.ParseApiRequestResponse.parseOrThrow(_response.body, {
+            return await serializers.PreProcessApiResponse.parseOrThrow(_response.body, {
+                unrecognizedObjectKeys: "passthrough",
+                allowUnrecognizedUnionMembers: true,
+                allowUnrecognizedEnumValues: true,
+            });
+        }
+
+        if (_response.error.reason === "status-code") {
+            throw new errors.IntegralApiError({
+                statusCode: _response.error.statusCode,
+                body: _response.error.body,
+            });
+        }
+
+        switch (_response.error.reason) {
+            case "non-json":
+                throw new errors.IntegralApiError({
+                    statusCode: _response.error.statusCode,
+                    body: _response.error.rawBody,
+                });
+            case "timeout":
+                throw new errors.IntegralApiTimeoutError();
+            case "unknown":
+                throw new errors.IntegralApiError({
+                    message: _response.error.errorMessage,
+                });
+        }
+    }
+
+    /**
+     * This endpoint only works in conjunction to the Pre-processing endpoint `POST /parse/pre-processing`.  Without it, the necessary information for this endpoint won't be found.
+     *
+     */
+    public async postProcess(request: IntegralApi.PostProcessApiRequest): Promise<IntegralApi.PostProcessApiResponse> {
+        const _response = await core.fetcher({
+            url: urlJoin(
+                this.options.environment ?? environments.IntegralApiEnvironment.Production,
+                "/parse/post-process"
+            ),
+            method: "POST",
+            headers: {
+                Authorization: await this._getAuthorizationHeader(),
+                "Integral-Application-Id": await core.Supplier.get(this.options.integralApplicationId),
+            },
+            contentType: "application/json",
+            body: await serializers.PostProcessApiRequest.jsonOrThrow(request, { unrecognizedObjectKeys: "strip" }),
+        });
+        if (_response.ok) {
+            return await serializers.PostProcessApiResponse.parseOrThrow(_response.body, {
                 unrecognizedObjectKeys: "passthrough",
                 allowUnrecognizedUnionMembers: true,
                 allowUnrecognizedEnumValues: true,

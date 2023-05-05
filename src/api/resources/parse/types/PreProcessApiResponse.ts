@@ -4,8 +4,8 @@
 
 import { IntegralApi } from "@integralapi/node";
 
-export interface ParseApiRequestResponse {
-    apiKey: IntegralApi.ApiKeyParseResponse;
+export interface PreProcessApiResponse {
+    request: IntegralApi.RequestPreProcessResponse;
     statusCode: number;
     user: IntegralApi.UserParseResponse;
     application: IntegralApi.ApplicationParseResponse;
