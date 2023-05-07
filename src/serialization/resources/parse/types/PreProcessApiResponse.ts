@@ -15,7 +15,7 @@ export const PreProcessApiResponse: core.serialization.ObjectSchema<
     user: core.serialization.lazyObject(async () => (await import("../../..")).UserParseResponse),
     application: core.serialization.lazyObject(async () => (await import("../../..")).ApplicationParseResponse),
     returnBackToUser: core.serialization
-        .lazyObject(async () => (await import("../../..")).ReturnBackToUserResponse)
+        .lazy(async () => (await import("../../..")).ReturnBackToUserUnionType)
         .optional(),
 });
 
@@ -25,6 +25,6 @@ export declare namespace PreProcessApiResponse {
         statusCode: number;
         user: serializers.UserParseResponse.Raw;
         application: serializers.ApplicationParseResponse.Raw;
-        returnBackToUser?: serializers.ReturnBackToUserResponse.Raw | null;
+        returnBackToUser?: serializers.ReturnBackToUserUnionType.Raw | null;
     }
 }

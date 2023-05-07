@@ -9,5 +9,5 @@ export interface PreProcessApiResponse {
     statusCode: number;
     user: IntegralApi.UserParseResponse;
     application: IntegralApi.ApplicationParseResponse;
-    returnBackToUser?: IntegralApi.ReturnBackToUserResponse;
+    returnBackToUser?: IntegralApi.ReturnBackToUserUnionType;
 }

@@ -6,9 +6,9 @@ import * as serializers from "../../..";
 import { IntegralApi } from "@integralapi/node";
 import * as core from "../../../../core";
 
-export const ReturnBackToUserResponse: core.serialization.ObjectSchema<
-    serializers.ReturnBackToUserResponse.Raw,
-    IntegralApi.ReturnBackToUserResponse
+export const ReturnBackToUserErrorResponse: core.serialization.ObjectSchema<
+    serializers.ReturnBackToUserErrorResponse.Raw,
+    IntegralApi.ReturnBackToUserErrorResponse
 > = core.serialization.object({
     message: core.serialization.string(),
     solution: core.serialization.string(),
@@ -20,7 +20,7 @@ export const ReturnBackToUserResponse: core.serialization.ObjectSchema<
     causes: core.serialization.string().optional(),
 });
 
-export declare namespace ReturnBackToUserResponse {
+export declare namespace ReturnBackToUserErrorResponse {
     interface Raw {
         message: string;
         solution: string;
