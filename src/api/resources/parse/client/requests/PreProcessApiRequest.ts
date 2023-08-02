@@ -46,4 +46,10 @@ export interface PreProcessApiRequest {
      *
      */
     idempotencyKey?: string;
+    /**
+     * A value passed in for the version string of a given request.
+     * This is not to be confused with the `version` field returned on the `request` object in the response. This version is the raw string passed in from the user.
+     *
+     */
+    version?: string;
 }

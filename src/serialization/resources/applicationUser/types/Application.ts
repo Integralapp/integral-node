@@ -15,6 +15,11 @@ export const Application: core.serialization.ObjectSchema<serializers.Applicatio
         name: core.serialization.string(),
         description: core.serialization.string(),
         publicId: core.serialization.string(),
+        organization: core.serialization.lazyObject(async () => (await import("../../..")).Organization),
+        baseUrl: core.serialization.lazyObject(async () => (await import("../../..")).ApplicationBaseUrl),
+        ipRateLimit: core.serialization.number(),
+        amountPerInterval: core.serialization.string().optional(),
+        timeInterval: core.serialization.string(),
     });
 
 export declare namespace Application {
@@ -26,5 +31,10 @@ export declare namespace Application {
         name: string;
         description: string;
         publicId: string;
+        organization: serializers.Organization.Raw;
+        baseUrl: serializers.ApplicationBaseUrl.Raw;
+        ipRateLimit: number;
+        amountPerInterval?: string | null;
+        timeInterval: string;
     }
 }

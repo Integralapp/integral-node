@@ -14,8 +14,8 @@ export const ApplicationRateLimit: core.serialization.ObjectSchema<
     createdAt: core.serialization.string(),
     updatedAt: core.serialization.string(),
     deletedAt: core.serialization.string().optional(),
-    numOfRequests: core.serialization.number(),
-    timeInterval: core.serialization.string(),
+    numOfRequests: core.serialization.number().optional(),
+    timeInterval: core.serialization.string().optional(),
 });
 
 export declare namespace ApplicationRateLimit {
@@ -24,7 +24,7 @@ export declare namespace ApplicationRateLimit {
         createdAt: string;
         updatedAt: string;
         deletedAt?: string | null;
-        numOfRequests: number;
-        timeInterval: string;
+        numOfRequests?: number | null;
+        timeInterval?: string | null;
     }
 }

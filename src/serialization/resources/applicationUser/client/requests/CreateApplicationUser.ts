@@ -13,6 +13,7 @@ export const CreateApplicationUser: core.serialization.Schema<
     userId: core.serialization.string(),
     tierId: core.serialization.string(),
     description: core.serialization.string().optional(),
+    metadata: core.serialization.record(core.serialization.string(), core.serialization.unknown()).optional(),
 });
 
 export declare namespace CreateApplicationUser {
@@ -20,5 +21,6 @@ export declare namespace CreateApplicationUser {
         userId: string;
         tierId: string;
         description?: string | null;
+        metadata?: Record<string, unknown> | null;
     }
 }

@@ -13,12 +13,12 @@ export const ApiKey: core.serialization.ObjectSchema<serializers.ApiKey.Raw, Int
         updatedAt: core.serialization.string(),
         deletedAt: core.serialization.string(),
         apiKey: core.serialization.string(),
+        name: core.serialization.string().optional(),
+        expiresAt: core.serialization.string(),
+        description: core.serialization.string().optional(),
         isPaused: core.serialization.boolean(),
         isRevoked: core.serialization.boolean(),
-        isRotatedOff: core.serialization.boolean(),
-        numOfRequest: core.serialization.number(),
-        firstTimeRequest: core.serialization.string(),
-        applicationUser: core.serialization.lazyObject(async () => (await import("../../..")).ApplicationUser),
+        lastUsed: core.serialization.string().optional(),
     });
 
 export declare namespace ApiKey {
@@ -28,11 +28,11 @@ export declare namespace ApiKey {
         updatedAt: string;
         deletedAt: string;
         apiKey: string;
+        name?: string | null;
+        expiresAt: string;
+        description?: string | null;
         isPaused: boolean;
         isRevoked: boolean;
-        isRotatedOff: boolean;
-        numOfRequest: number;
-        firstTimeRequest: string;
-        applicationUser: serializers.ApplicationUser.Raw;
+        lastUsed?: string | null;
     }
 }

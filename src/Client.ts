@@ -6,6 +6,7 @@ import * as environments from "./environments";
 import * as core from "./core";
 import { ApiKeys } from "./api/resources/apiKeys/client/Client";
 import { ApplicationUser } from "./api/resources/applicationUser/client/Client";
+import { Logs } from "./api/resources/logs/client/Client";
 import { Parse } from "./api/resources/parse/client/Client";
 import { Tiers } from "./api/resources/tiers/client/Client";
 
@@ -30,6 +31,12 @@ export class IntegralApiClient {
 
     public get applicationUser(): ApplicationUser {
         return (this._applicationUser ??= new ApplicationUser(this.options));
+    }
+
+    private _logs: Logs | undefined;
+
+    public get logs(): Logs {
+        return (this._logs ??= new Logs(this.options));
     }
 
     private _parse: Parse | undefined;

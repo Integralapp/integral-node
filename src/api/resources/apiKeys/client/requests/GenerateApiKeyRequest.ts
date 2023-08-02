@@ -9,7 +9,12 @@ export interface GenerateApiKeyRequest {
      */
     userId: string;
     /**
-     * This is the description applied to an API key to identify it for a human. Use this to describe who the key belongs to, or why this key is relevant/exists.
+     * This is the name of the key that will be indexed and shown as a helpful human identifier for the key and it's relevant information (logs, events, and errors).
+     *
+     */
+    name?: string;
+    /**
+     * Extra space for any additional metadata or information needed to be applied on a key.
      *
      */
     description?: string;

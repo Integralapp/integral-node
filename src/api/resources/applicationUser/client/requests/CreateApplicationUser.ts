@@ -15,4 +15,6 @@ export interface CreateApplicationUser {
     tierId: string;
     /** Generic description to describe the given Application User */
     description?: string;
+    /** Any relevant metadata helpful in searching or indexing information on a user. */
+    metadata?: Record<string, unknown>;
 }

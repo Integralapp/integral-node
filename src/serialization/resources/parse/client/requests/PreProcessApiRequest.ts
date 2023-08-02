@@ -19,6 +19,7 @@ export const PreProcessApiRequest: core.serialization.Schema<
     queryParams: core.serialization.record(core.serialization.string(), core.serialization.unknown()),
     metadata: core.serialization.record(core.serialization.string(), core.serialization.unknown()).optional(),
     idempotencyKey: core.serialization.string().optional(),
+    version: core.serialization.string().optional(),
 });
 
 export declare namespace PreProcessApiRequest {
@@ -32,5 +33,6 @@ export declare namespace PreProcessApiRequest {
         queryParams: Record<string, unknown>;
         metadata?: Record<string, unknown> | null;
         idempotencyKey?: string | null;
+        version?: string | null;
     }
 }

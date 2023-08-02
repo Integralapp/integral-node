@@ -11,12 +11,14 @@ export const ApplicationUserCreateResponse: core.serialization.ObjectSchema<
     IntegralApi.ApplicationUserCreateResponse
 > = core.serialization.object({
     applicationUser: core.serialization.lazyObject(async () => (await import("../../..")).ApplicationUser),
-    apiKey: core.serialization.lazyObject(async () => (await import("../../..")).ApiKey),
+    productionApiKey: core.serialization.string(),
+    sandboxApiKey: core.serialization.string(),
 });
 
 export declare namespace ApplicationUserCreateResponse {
     interface Raw {
         applicationUser: serializers.ApplicationUser.Raw;
-        apiKey: serializers.ApiKey.Raw;
+        productionApiKey: string;
+        sandboxApiKey: string;
     }
 }

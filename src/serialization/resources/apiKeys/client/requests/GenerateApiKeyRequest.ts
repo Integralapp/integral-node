@@ -11,6 +11,7 @@ export const GenerateApiKeyRequest: core.serialization.Schema<
     IntegralApi.GenerateApiKeyRequest
 > = core.serialization.object({
     userId: core.serialization.string(),
+    name: core.serialization.string().optional(),
     description: core.serialization.string().optional(),
     isSandbox: core.serialization.boolean().optional(),
 });
@@ -18,6 +19,7 @@ export const GenerateApiKeyRequest: core.serialization.Schema<
 export declare namespace GenerateApiKeyRequest {
     interface Raw {
         userId: string;
+        name?: string | null;
         description?: string | null;
         isSandbox?: boolean | null;
     }

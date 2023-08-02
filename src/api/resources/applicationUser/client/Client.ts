@@ -68,7 +68,7 @@ export class ApplicationUser {
     }
 
     /**
-     * This endpoint takes in an Application User's ID and returns back relevant information about the user
+     * This endpoint takes in an Application User's ID and returns back relevant information about the user, including the given application and tier.
      */
     public async get(userId: string): Promise<IntegralApi.ApplicationUser> {
         const _response = await core.fetcher({

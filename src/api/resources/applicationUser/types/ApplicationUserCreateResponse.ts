@@ -6,5 +6,6 @@ import { IntegralApi } from "@integralapi/node";
 
 export interface ApplicationUserCreateResponse {
     applicationUser: IntegralApi.ApplicationUser;
-    apiKey: IntegralApi.ApiKey;
+    productionApiKey: string;
+    sandboxApiKey: string;
 }

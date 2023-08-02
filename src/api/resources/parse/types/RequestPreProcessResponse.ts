@@ -8,5 +8,6 @@ export interface RequestPreProcessResponse {
     hasResponseContent: boolean;
     environment: string;
     id: string;
+    version?: string;
     endpoint: IntegralApi.EndpointPreProcessType;
 }

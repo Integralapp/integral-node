@@ -7,6 +7,6 @@ export interface ApplicationRateLimit {
     createdAt: string;
     updatedAt: string;
     deletedAt?: string;
-    numOfRequests: number;
-    timeInterval: string;
+    numOfRequests?: number;
+    timeInterval?: string;
 }

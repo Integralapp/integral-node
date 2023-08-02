@@ -13,6 +13,7 @@ export const RequestPreProcessResponse: core.serialization.ObjectSchema<
     hasResponseContent: core.serialization.boolean(),
     environment: core.serialization.string(),
     id: core.serialization.string(),
+    version: core.serialization.string().optional(),
     endpoint: core.serialization.lazyObject(async () => (await import("../../..")).EndpointPreProcessType),
 });
 
@@ -21,6 +22,7 @@ export declare namespace RequestPreProcessResponse {
         hasResponseContent: boolean;
         environment: string;
         id: string;
+        version?: string | null;
         endpoint: serializers.EndpointPreProcessType.Raw;
     }
 }

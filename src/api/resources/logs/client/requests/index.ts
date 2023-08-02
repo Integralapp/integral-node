@@ -1,0 +1,1 @@
+export { GetLogsByApplication } from "./GetLogsByApplication";

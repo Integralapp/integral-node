@@ -2,4 +2,8 @@ export * from "./ApplicationUserCreateResponse";
 export * from "./ApplicationUser";
 export * from "./ApplicationRole";
 export * from "./Application";
+export * from "./Organization";
+export * from "./ApplicationBaseUrl";
 export * from "./ApiKey";
+export * from "./ApplicationVersion";
+export * from "./ApplicationBaseUrlEndpoint";

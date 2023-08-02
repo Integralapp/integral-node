@@ -66,21 +66,38 @@ export class ApiKeys {
     }
 
     /**
-     * Retrieve all API keys for the given Application User
+     * Retrieve a paginated list of production API keys for a given Application User
      *
      */
-    public async retrieve(userId: string): Promise<IntegralApi.ApiKey[]> {
+    public async retrieveProduction(
+        userId: string,
+        request: IntegralApi.RetrieveProductionApplicationUserApiKeys = {}
+    ): Promise<IntegralApi.ApiKey[]> {
+        const { limit, after } = request;
+        const _queryParams = new URLSearchParams();
+        if (limit != null) {
+            _queryParams.append("limit", limit.toString());
+        }
+
+        if (after != null) {
+            _queryParams.append("after", after);
+        }
+
         const _response = await core.fetcher({
-            url: urlJoin(this.options.environment ?? environments.IntegralApiEnvironment.Production, `/key/${userId}`),
+            url: urlJoin(
+                this.options.environment ?? environments.IntegralApiEnvironment.Production,
+                `/key/${userId}/production`
+            ),
             method: "GET",
             headers: {
                 Authorization: await this._getAuthorizationHeader(),
                 "Integral-Application-Id": await core.Supplier.get(this.options.integralApplicationId),
             },
             contentType: "application/json",
+            queryParameters: _queryParams,
         });
         if (_response.ok) {
-            return await serializers.apiKeys.retrieve.Response.parseOrThrow(_response.body, {
+            return await serializers.apiKeys.retrieveProduction.Response.parseOrThrow(_response.body, {
                 unrecognizedObjectKeys: "passthrough",
                 allowUnrecognizedUnionMembers: true,
                 allowUnrecognizedEnumValues: true,
@@ -110,7 +127,65 @@ export class ApiKeys {
     }
 
     /**
-     * Given an API Key generated for your application's user, this endpoint allows you to pause the API key.
+     * Retrieve a paginated list of sandbox API keys for a given Application User
+     *
+     */
+    public async retrieveSandbox(
+        userId: string,
+        request: IntegralApi.RetrieveSandboxApplicationUserApiKeys = {}
+    ): Promise<IntegralApi.ApiKey[]> {
+        const { limit, after } = request;
+        const _queryParams = new URLSearchParams();
+        if (limit != null) {
+            _queryParams.append("limit", limit.toString());
+        }
+
+        if (after != null) {
+            _queryParams.append("after", after);
+        }
+
+        const _response = await core.fetcher({
+            url: urlJoin(this.options.environment ?? environments.IntegralApiEnvironment.Production, `/key/${userId}`),
+            method: "GET",
+            headers: {
+                Authorization: await this._getAuthorizationHeader(),
+                "Integral-Application-Id": await core.Supplier.get(this.options.integralApplicationId),
+            },
+            contentType: "application/json",
+            queryParameters: _queryParams,
+        });
+        if (_response.ok) {
+            return await serializers.apiKeys.retrieveSandbox.Response.parseOrThrow(_response.body, {
+                unrecognizedObjectKeys: "passthrough",
+                allowUnrecognizedUnionMembers: true,
+                allowUnrecognizedEnumValues: true,
+            });
+        }
+
+        if (_response.error.reason === "status-code") {
+            throw new errors.IntegralApiError({
+                statusCode: _response.error.statusCode,
+                body: _response.error.body,
+            });
+        }
+
+        switch (_response.error.reason) {
+            case "non-json":
+                throw new errors.IntegralApiError({
+                    statusCode: _response.error.statusCode,
+                    body: _response.error.rawBody,
+                });
+            case "timeout":
+                throw new errors.IntegralApiTimeoutError();
+            case "unknown":
+                throw new errors.IntegralApiError({
+                    message: _response.error.errorMessage,
+                });
+        }
+    }
+
+    /**
+     * Given an API Key generated for your application's user, this endpoint allows you to pause the API key (temporarily stopping any API requests from being processed on it).
      *
      */
     public async pause(request: IntegralApi.PauseApiKeyRequest): Promise<IntegralApi.ApiKey> {
@@ -155,9 +230,54 @@ export class ApiKeys {
     }
 
     /**
+     * Given an API Key generated for your application's user, this endpoint allows you to unpause the given API key.
+     *
+     */
+    public async unpause(request: IntegralApi.UnpauseApiKeyRequest): Promise<IntegralApi.ApiKey> {
+        const _response = await core.fetcher({
+            url: urlJoin(this.options.environment ?? environments.IntegralApiEnvironment.Production, "/key/unpause"),
+            method: "PUT",
+            headers: {
+                Authorization: await this._getAuthorizationHeader(),
+                "Integral-Application-Id": await core.Supplier.get(this.options.integralApplicationId),
+            },
+            contentType: "application/json",
+            body: await serializers.UnpauseApiKeyRequest.jsonOrThrow(request, { unrecognizedObjectKeys: "strip" }),
+        });
+        if (_response.ok) {
+            return await serializers.ApiKey.parseOrThrow(_response.body, {
+                unrecognizedObjectKeys: "passthrough",
+                allowUnrecognizedUnionMembers: true,
+                allowUnrecognizedEnumValues: true,
+            });
+        }
+
+        if (_response.error.reason === "status-code") {
+            throw new errors.IntegralApiError({
+                statusCode: _response.error.statusCode,
+                body: _response.error.body,
+            });
+        }
+
+        switch (_response.error.reason) {
+            case "non-json":
+                throw new errors.IntegralApiError({
+                    statusCode: _response.error.statusCode,
+                    body: _response.error.rawBody,
+                });
+            case "timeout":
+                throw new errors.IntegralApiTimeoutError();
+            case "unknown":
+                throw new errors.IntegralApiError({
+                    message: _response.error.errorMessage,
+                });
+        }
+    }
+
+    /**
      * This endpoint is used to revoke a key.
-     * Revoking an API key means making all of it's content and previous data still persistent, but no longer usable.
-     * Once a key is revoked, it can never be set back to normal.
+     * Revoking an API key makes all of the key's data read only (logs, events, and errors), but no longer able to continue making requests.
+     * Once a key is revoked, it can never be used to make an API request again.
      *
      */
     public async revoke(request: IntegralApi.RevokeApiKeyRequest): Promise<IntegralApi.ApiKey> {
@@ -170,6 +290,51 @@ export class ApiKeys {
             },
             contentType: "application/json",
             body: await serializers.RevokeApiKeyRequest.jsonOrThrow(request, { unrecognizedObjectKeys: "strip" }),
+        });
+        if (_response.ok) {
+            return await serializers.ApiKey.parseOrThrow(_response.body, {
+                unrecognizedObjectKeys: "passthrough",
+                allowUnrecognizedUnionMembers: true,
+                allowUnrecognizedEnumValues: true,
+            });
+        }
+
+        if (_response.error.reason === "status-code") {
+            throw new errors.IntegralApiError({
+                statusCode: _response.error.statusCode,
+                body: _response.error.body,
+            });
+        }
+
+        switch (_response.error.reason) {
+            case "non-json":
+                throw new errors.IntegralApiError({
+                    statusCode: _response.error.statusCode,
+                    body: _response.error.rawBody,
+                });
+            case "timeout":
+                throw new errors.IntegralApiTimeoutError();
+            case "unknown":
+                throw new errors.IntegralApiError({
+                    message: _response.error.errorMessage,
+                });
+        }
+    }
+
+    /**
+     * This endpoint allows you to set a time for the given key to be revoked (at given time intervals).  It also creates a new key that holds all the previous key's logs and information, to allow you to continue making requests with it.
+     *
+     */
+    public async rotate(request: IntegralApi.RotateApiKeyRequest): Promise<IntegralApi.ApiKey> {
+        const _response = await core.fetcher({
+            url: urlJoin(this.options.environment ?? environments.IntegralApiEnvironment.Production, "/key/rotate"),
+            method: "PUT",
+            headers: {
+                Authorization: await this._getAuthorizationHeader(),
+                "Integral-Application-Id": await core.Supplier.get(this.options.integralApplicationId),
+            },
+            contentType: "application/json",
+            body: await serializers.RotateApiKeyRequest.jsonOrThrow(request, { unrecognizedObjectKeys: "strip" }),
         });
         if (_response.ok) {
             return await serializers.ApiKey.parseOrThrow(_response.body, {
